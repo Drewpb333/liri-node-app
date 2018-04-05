@@ -9,36 +9,39 @@ var log = "./log.txt";
 var action = process.argv[2];
 
 //appends action to log.txt
-fs.appendFile(log, "action", function(err){
-    if(err){
+fs.appendFile(log, action + ",", function (err) {
+    if (err) {
         console.log(err);
-    }
-    else{
-        if(process.argv[3]){
+    } else {
+        if (process.argv[3]) {
             var itemName = movieOrSongNameJoin();
-            fs.appendFile(log, itemName);
+            fs.appendFile(log, itemName + "\n");
         }
     }
 })
 
 //joins multiple array values into one movie or song string
 function movieOrSongNameJoin() {
-    var i = 3;
-    var media = [];
-    while (process.argv[i]) {
-        media.push(process.argv[i]);
-        i++
+    if (process.argv[3]) {
+        var i = 3;
+        var media = [];
+        while (process.argv[i]) {
+            media.push(process.argv[i]);
+            i++
+        }
+        return media.join(" ");
+    } else {
+        return process.argv[2];
     }
-    return media.join(" ");
 }
 
-function myTweets(){
+// function myTweets(){
 
-}
+// }
 
-function spotifyThisSong(name){
+// function spotifyThisSong(name){
 
-}
+// }
 
 function movieQuery(name) {
     var queryUrl = "http://www.omdbapi.com/?t=" + name + "&y=&plot=short&apikey=trilogy";
@@ -61,17 +64,17 @@ function movieQuery(name) {
 }
 
 // returns action and search query
-function doWhatItSays(){
+function doWhatItSays() {
     fs.readFile(randomFile, "utf8", function (err, data) {
         if (err) {
             console.log(err);
-        }
-        else{
+        } else {
             var randomArray = data.split(",");
             return randomArray;
         }
     })
 }
+
 
 switch (action) {
     case "my-tweets":
@@ -82,13 +85,14 @@ switch (action) {
         spotifyThisSong(songName);
         break;
     case "movie-this":
-        movieQuery();
+        var movieName = movieOrSongNameJoin();
+        movieQuery(movieName);
         break;
     case "do-what-it-says":
         var infoFromRandom = doWhatItSays();
         var actionFromRandom = infoFromRandom[0];
         var songOrMovieName = infoFromRandom[1];
-        switch (actionFromRandom){
+        switch (actionFromRandom) {
             case "my-tweets":
                 myTweets();
                 break;
