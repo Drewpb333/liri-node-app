@@ -3,9 +3,23 @@ var fs = require("fs");
 var request = require("request");
 var keys = require("./keys.js");
 var randomFile = "./random.txt";
+var log = "./log.txt";
 // var spotify = new Spotify(keys.spotify);
 // var client = new Twitter(keys.twitter);
 var action = process.argv[2];
+
+//appends action to log.txt
+fs.appendFile(log, "action", function(err){
+    if(err){
+        console.log(err);
+    }
+    else{
+        if(process.argv[3]){
+            var itemName = movieOrSongNameJoin();
+            fs.appendFile(log, itemName);
+        }
+    }
+})
 
 //joins multiple array values into one movie or song string
 function movieOrSongNameJoin() {
