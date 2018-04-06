@@ -1,6 +1,3 @@
-// import {
-//     spotify
-// } from "./keys.js";
 require("dotenv").config();
 var fs = require("fs");
 var request = require("request");
@@ -36,7 +33,7 @@ function movieOrSongNameJoin() {
         }
         return media.join(" ");
     } else {
-        return process.argv[2];
+        return "";
     }
 }
 
@@ -51,6 +48,15 @@ function myTweets() {
     });
 }
 
+//if more than one artist
+function multipleArtists(song) {
+    var artistsArray = [];
+    song.artists.forEach(function (artist) {
+        artistsArray.push(artist.name);
+    })
+    return artistsArray.join(", ");
+}
+
 function spotifyThisSong(name) {
     spotify.search({
         type: "track",
@@ -59,8 +65,11 @@ function spotifyThisSong(name) {
         if (err) {
             return console.log("Error ocurred: " + err);
         }
-        console.log(data.items.tracks[0].artists);
-        console.log(data.items.tracks[0].name);
+        var firstResult = data.tracks.items[0];
+        console.log(multipleArtists(firstResult));
+        console.log(firstResult.name);
+        console.log(firstResult.preview_url);
+        console.log(firstResult.album.name);
     })
 
 }
@@ -92,7 +101,22 @@ function doWhatItSays() {
             console.log(err);
         } else {
             var randomArray = data.split(",");
-            return randomArray;
+            var actionFromRandom = randomArray[0];
+            var songOrMovieName = randomArray[1];
+            switch (actionFromRandom) {
+                case "my-tweets":
+                    myTweets();
+                    break;
+                case "spotify-this-song":
+                    spotifyThisSong(songOrMovieName);
+                    break;
+                case "movie-this":
+                    movieQuery(songOrMovieName);
+                    break;
+                case "do-what-it-says":
+                    console.log("N/A");
+                    break;
+            }
         }
     })
 }
@@ -104,6 +128,9 @@ switch (action) {
         break;
     case "spotify-this-song":
         var songName = movieOrSongNameJoin();
+        if (!songName) {
+            songName = "The Sign Ace of Base";
+        }
         spotifyThisSong(songName);
         break;
     case "movie-this":
@@ -111,23 +138,7 @@ switch (action) {
         movieQuery(movieName);
         break;
     case "do-what-it-says":
-        var infoFromRandom = doWhatItSays();
-        var actionFromRandom = infoFromRandom[0];
-        var songOrMovieName = infoFromRandom[1];
-        switch (actionFromRandom) {
-            case "my-tweets":
-                myTweets();
-                break;
-            case "spotify-this-song":
-                spotifyThisSong(songOrMovieName);
-                break;
-            case "movie-this":
-                movieQuery(songOrMovieName);
-                break;
-            case "do-what-it-says":
-                console.log("N/A");
-                break;
-        }
+        doWhatItSays();
         break;
     default:
         console.log("Please enter one of the following commands:\nmy-tweets\nspotify-this-song\nmovie-this\ndo-what-it-says");
