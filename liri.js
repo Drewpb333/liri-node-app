@@ -1,5 +1,6 @@
-import { spotify } from "./keys.js";
-
+// import {
+//     spotify
+// } from "./keys.js";
 require("dotenv").config();
 var fs = require("fs");
 var request = require("request");
@@ -39,20 +40,30 @@ function movieOrSongNameJoin() {
     }
 }
 
-// function myTweets(){
+function myTweets() {
+    var params = {
+        screen_name: 'nodejs'
+    };
+    client.get('statuses/user_timeline', params, function (error, tweets, response) {
+        if (!error) {
+            console.log(tweets);
+        }
+    });
+}
 
-// }
+function spotifyThisSong(name) {
+    spotify.search({
+        type: "track",
+        query: name
+    }, function (err, data) {
+        if (err) {
+            return console.log("Error ocurred: " + err);
+        }
+        console.log(data.items.tracks[0].artists);
+        console.log(data.items.tracks[0].name);
+    })
 
-function spotifyThisSong(name){
-    spotify.search({type: "track", query: name}, function(err, ))
-    // * Artist(s)
-     
-    // * The song's name
-    
-    // * A preview link of the song from Spotify
-    
-    // * The album that the song is from
-// }
+}
 
 function movieQuery(name) {
     var queryUrl = "http://www.omdbapi.com/?t=" + name + "&y=&plot=short&apikey=trilogy";
