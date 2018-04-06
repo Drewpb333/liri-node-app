@@ -39,11 +39,14 @@ function movieOrSongNameJoin() {
 
 function myTweets() {
     var params = {
-        screen_name: 'nodejs'
+        screen_name: 'KennyPo74767887'
     };
     client.get('statuses/user_timeline', params, function (error, tweets, response) {
         if (!error) {
-            console.log(tweets);
+            //cycles through past tweets
+            console.log("My past tweets: ");
+            for(var i = 1; i < 20; i++)
+            console.log(tweets[i].text);
         }
     });
 }
@@ -120,7 +123,6 @@ function doWhatItSays() {
         }
     })
 }
-
 
 switch (action) {
     case "my-tweets":
