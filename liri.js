@@ -1,11 +1,15 @@
+import { spotify } from "./keys.js";
+
 require("dotenv").config();
 var fs = require("fs");
 var request = require("request");
 var keys = require("./keys.js");
+var Twitter = require("twitter");
+var Spotify = require("node-spotify-api");
 var randomFile = "./random.txt";
 var log = "./log.txt";
-// var spotify = new Spotify(keys.spotify);
-// var client = new Twitter(keys.twitter);
+var spotify = new Spotify(keys.spotify);
+var client = new Twitter(keys.twitter);
 var action = process.argv[2];
 
 //appends action to log.txt
@@ -39,8 +43,15 @@ function movieOrSongNameJoin() {
 
 // }
 
-// function spotifyThisSong(name){
-
+function spotifyThisSong(name){
+    spotify.search({type: "track", query: name}, function(err, ))
+    // * Artist(s)
+     
+    // * The song's name
+    
+    // * A preview link of the song from Spotify
+    
+    // * The album that the song is from
 // }
 
 function movieQuery(name) {
