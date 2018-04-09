@@ -5,7 +5,9 @@
   "main": "keys.js",
   "dependencies": {
     "dotenv": "^5.0.1",
+    "inquirer": "^5.2.0",
     "node-spotify-api": "^1.0.7",
+    "opn": "^5.3.0",
     "request": "^2.85.0",
     "twitter": "^1.7.1"
   },

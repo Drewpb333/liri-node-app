@@ -1,9 +1,11 @@
 require("dotenv").config();
 var fs = require("fs");
 var request = require("request");
+var inquirer = require("inquirer");
 var keys = require("./keys.js");
 var Twitter = require("twitter");
 var Spotify = require("node-spotify-api");
+var opn = require("opn");
 var randomFile = "./random.txt";
 var log = "./log.txt";
 var spotify = new Spotify(keys.spotify);
@@ -45,8 +47,8 @@ function myTweets() {
         if (!error) {
             //cycles through past tweets
             console.log("My past tweets: ");
-            for(var i = 1; i < 20; i++)
-            console.log(tweets[i].text);
+            for (var i = 1; i < 20; i++)
+                console.log(tweets[i].text);
         }
     });
 }
@@ -73,9 +75,28 @@ function spotifyThisSong(name) {
         console.log(firstResult.name);
         console.log(firstResult.preview_url);
         console.log(firstResult.album.name);
+        previewSong(firstResult.preview_url);
     })
-
 }
+
+// allows user to listen to preview in chrome browser
+function previewSong(previewURL) {
+    // in case there is no preview available
+    if (previewURL) {
+        inquirer.prompt([{
+            type: "confirm",
+            message: "Type yes if you would like to listen to a preview of this song.",
+            name: "userinput"
+        }]).then(function (response) {
+            if (response.userinput) {
+                opn(previewURL, {
+                    app: ['chrome']
+                });
+            }
+        })
+    }
+}
+
 
 function movieQuery(name) {
     var queryUrl = "http://www.omdbapi.com/?t=" + name + "&y=&plot=short&apikey=trilogy";
