@@ -89,9 +89,7 @@ function previewSong(previewURL) {
             name: "userinput"
         }]).then(function (response) {
             if (response.userinput) {
-                opn(previewURL, {
-                    app: ['chrome']
-                });
+                opn(previewURL);
             }
         })
     }
