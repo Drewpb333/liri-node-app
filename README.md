@@ -7,12 +7,21 @@ Utilizing APIs from Twitter, OMDB, and Spotify, the Liri Node App uses the inqui
 
 * my-tweets
 
+![](./images/my-tweets.png)
+
 * spotify-this-song ***
+
+![](./images/spotify-this-song.jpg)
 
 * movie-this ***
 
+![](./images/movie-this.jpg)
+
 * do-what-it-says(creates command based on what is written in random.txt)
+
+![](./images/do-what-it-says.png)
 
 *** song name or movie name would be written here
 
 Once the user presses enter, a request will be made utilizing the request node package to the specified API.
+
