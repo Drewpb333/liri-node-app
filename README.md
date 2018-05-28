@@ -23,5 +23,5 @@ Utilizing APIs from Twitter, OMDB, and Spotify, the Liri Node App uses the inqui
 
 *** song name or movie name would be written here
 
-Once the user presses enter, a request will be made utilizing the request node package to the specified API.
+Once the user presses enter, a request will be made to the specified API utilizing the request node package.
 
